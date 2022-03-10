@@ -1,0 +1,78 @@
+---
+version: 2.1
+
+orbs:
+  executor-tools: twdps/executor-tools@0.2.0
+
+# ==== global pipeline parameters
+
+parameters:
+  context:
+    description: circleci context for all jobs
+    type: string
+    default: dpsctl
+  executor-image:
+    description: image to use for local jobs
+    type: string
+    default: twdps/circleci-kube-ops:alpine-0.5.0
+      
+on-push-main: &on-push-main
+  branches:
+    only: /main/
+  tags:
+    ignore: /.*/
+
+on-tag-main: &on-tag-main
+  branches:
+    ignore: /.*/
+  tags:
+    only: /.*/
+
+jobs:
+
+  deploy-auth0-configuration:
+    executor: << pipeline.parameters.executor-image >>
+    shell: secrethub run --env-file << parameters.tenant-env >>.env -- /bin/sh -eo pipefail
+    parameters:
+      tenant-env:
+        description: secrethub env file to use for deployment
+        type: string
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: install python dependencies
+          command: pip install -r requirements.txt
+      - run:
+          name: fetch management api token
+          command: python scripts/get_mgmt_api_access_token.py
+      - run:
+          name: create/update auth0 tenant application for dpsctl-auth0-management-pipeline
+          command: python scripts/deploy_cli_auth0_application.py
+      - run:
+          name: create/update auth0 tenant rules
+          command: python scripts/deploy_cli_auth0_rules.py
+      
+
+workflows:
+  version: 2
+
+  dpsctl-auth0-management-pipeline:
+    jobs:
+      - deploy-auth0-configuration:
+          name: deploy-dev-tenant-configuration
+          tenant-env: dev-tenant
+          context: << pipeline.parameters.context >>
+          filters: *on-push-main
+
+      - deploy-auth0-configuration:
+          name: deploy-prod-tenant-configuration
+          tenant-env: tenant
+          context: << pipeline.parameters.context >>
+          filters: *on-tag-main
+
+      - executor-tools/release:
+          name: release-dpsctl-auth0-configuration
+          context: << pipeline.parameters.context >>
+          filters: *on-tag-main

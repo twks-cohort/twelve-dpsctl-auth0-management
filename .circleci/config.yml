@@ -15,7 +15,7 @@ parameters:
     description: image to use for local jobs
     type: string
     default: twdps/circleci-kube-ops:alpine-0.5.0
-      
+
 on-push-main: &on-push-main
   branches:
     only: /main/
@@ -31,7 +31,8 @@ on-tag-main: &on-tag-main
 jobs:
 
   deploy-auth0-configuration:
-    executor: << pipeline.parameters.executor-image >>
+    docker:
+      - image: << pipeline.parameters.executor-image >>
     shell: secrethub run --env-file << parameters.tenant-env >>.env -- /bin/sh -eo pipefail
     parameters:
       tenant-env:
@@ -53,7 +54,7 @@ jobs:
       - run:
           name: create/update auth0 tenant rules
           command: python scripts/deploy_cli_auth0_rules.py
-      
+
 
 workflows:
   version: 2

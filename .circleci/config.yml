@@ -76,4 +76,5 @@ workflows:
       - executor-tools/release:
           name: release-dpsctl-auth0-configuration
           context: << pipeline.parameters.context >>
+          shell: secrethub run --env-file tenant.env -- /bin/sh -eo pipefail
           filters: *on-tag-main

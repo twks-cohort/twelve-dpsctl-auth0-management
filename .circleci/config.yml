@@ -3,6 +3,7 @@ version: 2.1
 
 orbs:
   executor-tools: twdps/executor-tools@0.9.0
+  op: twdps/onepassword@1.0.0
 
 # ==== global pipeline parameters
 
@@ -33,7 +34,7 @@ jobs:
   deploy-auth0-configuration:
     docker:
       - image: << pipeline.parameters.executor-image >>
-    shell: op run --env-file << parameters.tenant-env >>.env -- /bin/sh -eo pipefail
+    # shell: op run --env-file << parameters.tenant-env >>.env -- /bin/sh -eo pipefail
     parameters:
       tenant-env:
         description: one-password env file to use for deployment
@@ -42,6 +43,10 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - op/install-op:
+          os: Alpine
+      - op/env:
+          env-file: << parameters.tenant-env >>.env
       - run:
           name: install python dependencies
           command: pip install -r requirements.txt

@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs:
-  executor-tools: twdps/executor-tools@0.2.0
+  executor-tools: twdps/executor-tools@0.9.0
 
 # ==== global pipeline parameters
 
@@ -33,10 +33,10 @@ jobs:
   deploy-auth0-configuration:
     docker:
       - image: << pipeline.parameters.executor-image >>
-    shell: secrethub run --env-file << parameters.tenant-env >>.env -- /bin/sh -eo pipefail
+    shell: op run --env-file << parameters.tenant-env >>.env -- /bin/sh -eo pipefail
     parameters:
       tenant-env:
-        description: secrethub env file to use for deployment
+        description: one-password env file to use for deployment
         type: string
 
     steps:
@@ -76,5 +76,5 @@ workflows:
       - executor-tools/release:
           name: release-dpsctl-auth0-configuration
           context: << pipeline.parameters.context >>
-          shell: secrethub run --env-file tenant.env -- /bin/sh -eo pipefail
+          shell: op run --env-file tenant.env -- /bin/sh -eo pipefail
           filters: *on-tag-main

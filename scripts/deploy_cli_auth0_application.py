@@ -29,6 +29,6 @@ else:
   response = requests.post(url, headers=header, json=body)
 
 # write client-id to secrets store
-os.system(f"echo {response.json()['client_id']} | secrethub write dpsctl/svc/auth0/{os.environ.get('TENANT')}/{os.environ.get('TENANT_APPLICATION')}/client-id")
+os.system(f"echo {response.json()['client_id']} | opw write svc-auth0 {os.environ.get('TENANT')}-{os.environ.get('TENANT_APPLICATION')}-client-id-TESTING")
 # write client-secret to secrets store
-os.system(f"echo {response.json()['client_secret']} | secrethub write dpsctl/svc/auth0/{os.environ.get('TENANT')}/{os.environ.get('TENANT_APPLICATION')}/client-secret")
+os.system(f"echo {response.json()['client_secret']} | opw write svc-auth0 {os.environ.get('TENANT')}-{os.environ.get('TENANT_APPLICATION')}-client-secret-TESTING")

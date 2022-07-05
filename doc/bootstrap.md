@@ -8,19 +8,14 @@ Because of this, the amount of configuration and the resulting testing is also q
 
 **Dependency**  
 
-GiHub: requires creating two oauth-apps in the ThoughtWorks-DPS org. Since this Auth0 configuration is for use with the dpsctl commandline tool, the following twp oauth-apps were created and the client-id and client-secret were stored in the dpsctl secrethub org. (we hit the free-tier limit of 50 secrets in twdps org and are still waiting for the 1password secrets managment service purchase)  
+GiHub: requires creating two oauth-apps in the ThoughtWorks-DPS org. Since this Auth0 configuration is for use with the dpsctl commandline tool, the following two oauth-apps were created and the client-id and client-secret were stored in the empc-lab vault of the TWDPS 1password org.
 
-secrethub:  
+TWDPS 1 Password:  
 ```
-dpsctl/svc/
-└── github/
-    └── oauth-apps/
-        ├── dev-dpsctl/
-        │   ├── client-id
-        │   └── client-secret
-        └── dpsctl/
-            ├── client-id
-            └── client-secret
+empc-lab/
+└── svc-github/
+    └── dpsctl-client-id
+    └── dpsctl-client-secret
 ```
 
 ### Create two Auth0 tenants
@@ -40,7 +35,7 @@ Use the following claims with the client-id and client-secret for the respective
 
 ![social connection setup](images/social_connection_setup.png)  
 
-#### Bootstrap Management API client 
+#### Bootstrap Management API client
 
 Go to the applications dashboard and create a new client.  
 
@@ -64,17 +59,14 @@ From the example window, copy the client_id and client_secret.
 
 Store the credentials into the respective secrets location:  
 
-secrethub:  
+1Password:  
 ```
-dpsctl/svc/auth0/
-├── dev-twdpsio/
-│   └── management-api/
-│       ├── client-id
-│       └── client-secret
-└── twdpsio/
-    └── management-api/
-        ├── client-id
-        └── client-secret
+empc-lab/svc-auth0/
+├── dev-twdpsio-management-api-client-id
+├── dev-twdpsio-management-api-client-secret
+├── twdpsio-management-api-client-id
+└── twdpsio-management-api-client-secret
+
 ```
 
 The pipeline for management the dpsctl application and login rules will reference the above secrets.  

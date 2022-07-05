@@ -30,12 +30,12 @@ else:
   response = requests.post(url, headers=header, json=body)
 
 # write client-id to secrets store
-client_id_result = os.system(f"echo {response.json()['client_id']} | opw write svc-auth0 {os.environ.get('TENANT')}-{os.environ.get('TENANT_APPLICATION')}-client-id-TESTING")
+client_id_result = os.system(f"echo {response.json()['client_id']} | opw write svc-auth0 {os.environ.get('TENANT')}-{os.environ.get('TENANT_APPLICATION')}-client-id-TESTING -")
 if client_id_result != 0:
   print("Error writing client id")
   sys.exit(1)
 # write client-secret to secrets store
-client_secret_result = os.system(f"echo {response.json()['client_secret']} | opw write svc-auth0 {os.environ.get('TENANT')}-{os.environ.get('TENANT_APPLICATION')}-client-secret-TESTING")
+client_secret_result = os.system(f"echo {response.json()['client_secret']} | opw write svc-auth0 {os.environ.get('TENANT')}-{os.environ.get('TENANT_APPLICATION')}-client-secret-TESTING -")
 if client_secret_result != 0:
   print("Error writing client secret")
   sys.exit(1)

@@ -1,4 +1,5 @@
 import requests
+import time
 import os
 import json
 import sys
@@ -35,6 +36,7 @@ if client_id_result != 0:
   print("Error writing client id")
   sys.exit(1)
 # write client-secret to secrets store
+time.sleep(3)
 client_secret_result = os.system(f"opw write svc-auth0 {os.environ.get('TENANT')}-{os.environ.get('TENANT_APPLICATION')}-client-secret-TESTING {response.json()['client_secret']}")
 if client_secret_result != 0:
   print("Error writing client secret")

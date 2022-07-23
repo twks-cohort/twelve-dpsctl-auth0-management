@@ -24,7 +24,7 @@ url = f"https://{os.environ.get('TENANT')}.us.auth0.com/api/v2/rules"
 existing_rules = requests.get(url, headers=header)
 existing_rules_names = [rule['name'] for rule in existing_rules.json()]
 
-rules = json.load(open('rules/rules.json'))
+rules = json.load(open(f"rules/{os.environ.get('TENANT-APPLICATION')}-rules.json"))
 
 for rule in rules:
   rule['script'] = load_rule(rule['script_filename'])

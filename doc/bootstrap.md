@@ -6,7 +6,14 @@ In this use case, the idp plays a limited, pass-through function. When the devel
 
 Because of this, the amount of configuration and the resulting testing is also quite limited. And, since the authenication workflow reuqires human interaction by design, while the configuration of the idp is automated there is a limited amount of automated testing that can used to validate the resulting idp Client. Mostly, when changes to the configuration are needed, the changes are pushed to the dev-tenant and then human interactive testing is used to validate the results.  
 
-Create both dev and production oauth-app in your github organization. This example relates to the labs dpsctl cli so it will refer to the oauth-apps as dev-dpsctl and dpsctl (for prod).  
+
+####  Create Oauth App in GitHub Organization
+
+To start you need to create both dev and production oauth-apps in your github organization that Auth0 can use to access user information. This example relates to the labs dpsctl cli so it will refer to the oauth-apps as dev-dpsctl and dpsctl (for prod).  
+
+In the **Organization** settings, open `Oauth Apps` under `Developer Settings`
+
+![GitHub Settings](images/github_settings.png)
 
 #### Create Social Connection to Github.com
 

@@ -7,7 +7,7 @@ In this use case, the idp plays a limited, pass-through function. When the devel
 Because of this, the amount of configuration and the resulting testing is also quite limited. And, since the authenication workflow reuqires human interaction by design, while the configuration of the idp is automated there is a limited amount of automated testing that can used to validate the resulting idp Client. Mostly, when changes to the configuration are needed, the changes are pushed to the dev-tenant and then human interactive testing is used to validate the results.  
 
 
-####  Create Oauth App in GitHub Organization
+###  Create Oauth App in GitHub Organization
 
 To start you need to create both dev and production oauth-apps in your github organization that Auth0 can use to access user information. This example relates to the labs dpsctl cli so it will refer to the oauth-apps as dev-dpsctl and dpsctl (for prod).  
 
@@ -15,7 +15,15 @@ In the **Organization** settings, open `Oauth Apps` under `Developer Settings`
 
 ![GitHub Settings](images/github_settings.png)
 
-#### Create Social Connection to Github.com
+Using your auth0 Tenant ID for the homepage and callback URLs, create the OAuth Application
+
+> Note: You do not need to check Enable Device Flow here as this will be managed by Auth0
+
+![Register OAuth App](images/github_oauth_app.png)
+
+On the following screen, note the `Client ID`.  Create a new `Client Secret` and note this as well.  It will be needed for the next steps.
+
+### Create Social Connection to Github.com
 
 _note. Not yet found a way to use auth0 management api for creation of social connections_
 
@@ -27,7 +35,7 @@ Use the following claims with the client-id and client-secret for the respective
 
 ![social connection setup](images/social_connection_setup.png)  
 
-#### Bootstrap Management API client
+### Bootstrap Management API client
 
 Go to the applications dashboard and create a new client.  
 

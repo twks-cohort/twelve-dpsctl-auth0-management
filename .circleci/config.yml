@@ -51,8 +51,8 @@ jobs:
           name: create/update auth0 tenant application for dpsctl-auth0-management-pipeline
           command: python scripts/deploy_cli_auth0_application.py
       - run:
-          name: create/update auth0 tenant rules
-          command: python scripts/deploy_cli_auth0_rules.py
+          name: create/update auth0 tenant actions
+          command: python scripts/deploy_cli_auth0_actions.py
 
 
 workflows:

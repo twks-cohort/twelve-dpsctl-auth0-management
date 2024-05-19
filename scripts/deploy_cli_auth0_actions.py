@@ -23,8 +23,13 @@ def generate_binding(action_name):
 
 def fail_on_error(response):
   if response.status_code != 200:
-    raise RuntimeError(
-      f"Failed to deploy action: {response.status_code} {response.json()['message']}")
+    if 'message' in response.json():
+      raise RuntimeError(
+        f"Failed to deploy action: {response.status_code} {response.json()['message']}")
+    else:
+      raise RuntimeError(
+        f"Failed to deploy action: {response.status_code}")
+
 
 
 # ===== start

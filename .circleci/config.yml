@@ -10,11 +10,11 @@ parameters:
   context:
     description: circleci context for all jobs
     type: string
-    default: twdps-core-labs-team
+    default: cohorts-global
   executor-image:
     description: image to use for local jobs
     type: string
-    default: twdps/circleci-kube-ops:alpine-0.7.0
+    default: twdps/circleci-infra-aws:alpine-6.0.0
 
 on-push-main: &on-push-main
   branches:

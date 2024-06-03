@@ -8,13 +8,14 @@ exports.onExecutePostLogin = async (event, api) => {
         clientSecret: event.secrets.clientSecret
     });
 
-    managementClient.users.get({ id: event.user.user_id })
-        .then((userResponse) =>
-            userResponse.data.identities.filter((id) => id.provider === "github")[0]
+    return managementClient.users.get({ id: event.user.user_id })
+        .then((userResponse) => {
+                return userResponse.data.identities.filter((id) => id.provider === "github")[0]
+            }
         )
         .then((githubIdentity) => githubIdentity.access_token)
         .then((githubAccessToken) => {
-            axios.request({
+            return axios.request({
                 url: "https://api.github.com/user/teams",
                 headers: {
                     // use token authorization to talk to GitHub API
@@ -36,7 +37,7 @@ exports.onExecutePostLogin = async (event, api) => {
             const userRoles = new Set (event.user.app_metadata.roles || []);
             githubTeams.forEach(role => userRoles.add(role))
             // persist the app_metadata update
-            api.user.setAppMetadata("roles", userRoles);
+            return api.user.setAppMetadata("roles", [...userRoles]);
         })
         .catch(error => {
             // report and log error
